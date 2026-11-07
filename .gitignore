@@ -1,0 +1,47 @@
+# Python environments and generated files
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local app data and uploads
+instance/
+*.sqlite
+*.sqlite3
+*.db
+uploads/
+exports/
+data/private/
+
+# Secrets and local settings (commit .env.example files only)
+.env
+.env.*
+!.env.example
+!**/.env.example
+*.pem
+*.key
+
+# JavaScript/build/editor files
+node_modules/
+dist/
+coverage/
+.vscode/*
+!.vscode/tasks.json
+!.vscode/launch.json
+.DS_Store
+Thumbs.db
+
+# Backups and local diagnostics
+backups/
+*.log
+playwright-report/
+test-results/
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3-wal
+*.sqlite3-shm
+*.db-wal
+*.db-shm

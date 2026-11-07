@@ -1,0 +1,9 @@
+TRAVESÍA — VISUAL SYSTEM
+
+Main sections: Discover, Explore the globe, Trip Studio, Trip Pulseboard, Get Me There, Stays & Experiences, World Scene Lab, Squad Plans, Split Expenses, Companion Studio, Saved Worlds and Account & Access.
+
+The home hero uses a procedural WebGL globe with six selectable destination hotspots, drag rotation, orbital light rings, ambient particles and floating scene labels. The globe responds to pointer interaction. Bloop is a full-body transparent-canvas GLB and stays in place until the visitor acts. Selecting a destination triggers Bloop's walk/turn/greet sequence before the place opens. The rest of the product uses cinematic page-entry transitions, scroll reveals, pointer-lit cards and a compact scroll progress line.
+
+Portal Run is a pointer-driven collectible game. Companion Studio exposes the animation clips, including Walk, Turn and Point. The interface should stay polished and human in tone, not resemble a generic AI dashboard. Keep provider and privacy requirements accurate in technical documentation; do not imply that an external service is connected when it is not.
+
+Do not reintroduce Civic Pulse or location-specific civic reports. Do not mislabel sample figures as live. The Storyboard Workshop samples visual frames only; it does not analyze audio or render a completed video. Respect reduced-motion preferences, responsive layouts, keyboard operation and readable text over effects that obscure interaction.

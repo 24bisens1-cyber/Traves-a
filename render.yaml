@@ -1,0 +1,37 @@
+# TRAVESÍA Render Blueprint.
+# The persistent disk requires a paid compute plan and stores the SQLite database.
+# Create the Blueprint from the repository containing this file; secrets are prompted securely.
+services:
+  - type: web
+    name: travesia
+    runtime: docker
+    region: singapore
+    plan: 0.5c-512mb
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    autoDeployTrigger: 'commit'
+    disk:
+      name: travesia-data
+      mountPath: /app/instance
+      sizeGB: 1
+    envVars:
+      - key: PORT
+        value: "10000"
+      - key: CITYPULSEX_DB
+        value: /app/instance/citypulsex.sqlite3
+      - key: COOKIE_SECURE
+        value: "1"
+      - key: CITYPULSEX_ENV
+        value: production
+      - key: CITYPULSEX_TRUST_PROXY
+        value: "1"
+      # Commercial-safe default: use MET Norway after supplying a real identifying contact.
+      - key: WEATHER_ALLOW_OPEN_METEO_FREE
+        value: "0"
+      - key: CITYPULSEX_CONTACT_URL
+        sync: false
+      - key: CITYPULSEX_ADMIN_EMAIL
+        sync: false
+      - key: CITYPULSEX_ADMIN_PASSWORD
+        sync: false

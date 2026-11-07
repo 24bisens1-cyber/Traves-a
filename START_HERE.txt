@@ -1,0 +1,73 @@
+TRAVESÍA — START HERE
+The World Is Yours to Explore
+
+WINDOWS — QUICK START
+1. Install Python 3.11 or newer.
+2. Extract the ZIP.
+3. Open the extracted TRAVESÍA folder in VS Code (File → Open Folder).
+4. Double-click run_windows.bat. The first run creates .venv, installs Flask/Werkzeug, creates .env from .env.example when missing, and starts the app.
+5. The Flask WSGI app initializes the SQLite schema automatically on first start. Open http://127.0.0.1:5000 in your browser. Keep the terminal window open.
+
+WINDOWS — FULL VERIFICATION
+1. Install Python 3.11+, Node.js 20 LTS or newer, and VS Code.
+2. Double-click verify_windows.bat, or use Terminal → Run Task → TRAVESÍA: Full verification.
+3. The script installs requirements-dev.txt and Chromium, checks that Flask/Werkzeug/Pytest/Playwright/Node are present, and runs the full Flask HTTP/auth suite plus frontend and browser checks.
+4. The Flask HTTP/auth module is mandatory in full verification. Missing dependencies stop the run with an installation message; they are not silently skipped.
+
+WINDOWS — MANUAL POWERSHELL
+  py -m venv .venv
+  .\.venv\Scripts\Activate.ps1
+  python -m pip install --upgrade pip
+  python -m pip install -r requirements-dev.txt
+  python -m playwright install chromium
+  if (!(Test-Path .env)) { Copy-Item .env.example .env }
+  $env:CITYPULSEX_REQUIRE_FLASK_TESTS = "1"
+  python -m pytest -q
+  node --test frontend/tests/*.test.cjs
+
+MACOS / LINUX
+  python3 -m venv .venv
+  source .venv/bin/activate
+  python -m pip install --upgrade pip
+  python -m pip install -r requirements-dev.txt
+  python -m playwright install chromium
+  cp -n .env.example .env
+  export CITYPULSEX_REQUIRE_FLASK_TESTS=1
+  python -m pytest -q
+  node --test frontend/tests/*.test.cjs
+  python app.py
+Then open http://127.0.0.1:5000.
+
+VS CODE
+- Run app: Terminal → Run Task → TRAVESÍA: Run app.
+- Full checks: Terminal → Run Task → TRAVESÍA: Full verification.
+- Debug server: Run and Debug → TRAVESÍA Flask app.
+
+LOCAL CONFIGURATION
+The app reads the local .env file automatically. Edit .env to set CITYPULSEX_ADMIN_EMAIL and a strong CITYPULSEX_ADMIN_PASSWORD for first admin provisioning, or configure optional API providers. The app does not use Flask's signed-cookie session secret; authentication uses opaque random session tokens stored hashed in SQLite. Do not add a made-up CITYPULSEX_SECRET_KEY. Keep COOKIE_SECURE=0 for localhost HTTP; set COOKIE_SECURE=1 only behind HTTPS in production.
+
+WHAT IS INCLUDED
+- Cinematic destination-postcard home, interactive world atlas and compact Bloop companion.
+- Trip Studio, Mobility, Stays & Experiences, destination discovery and Trip Pulseboard.
+- Squad Plans and Split Expenses for 1–12 friends, profile photos, editable names, expense splits and settlement calculations.
+- Friend character picker with 13 distinct choices. Every character uses the same square stage (104×104 px desktop / 92×92 px compact). The six supplied character scenes preserve their original backgrounds and are shown whole with object-fit: contain; the tile uses a softly blurred copy of the same image for depth. The complete image frame receives slow camera drift, a light sweep and a distinct animation rhythm. These are CSS scene-motion effects, not newly rendered Ghibli artwork or frame-by-frame character animation. The seven original TRAVESÍA companions keep their GLB rigs. One character can belong to only one friend per trip; assignments persist and sync with shared trips.
+- On Discover, the two floating postcards always show the two destinations that are not currently selected. Click either postcard itself to replace the large central destination image, title and description. The floating cards always show the two destinations not selected in the centre. When Kyoto or Antarctica is selected, Goa appears as a floating one-click return postcard; clicking either small card replaces the centre scene and updates the other alternatives. The bottom destination selector remains available as a second way to change scenes.
+- Seven original animated companions, Companion Studio and Portal Run.
+- Cinematic, scene-switching banners on Trip Studio, Mobility, World Scene Lab, Companion Studio, Squad Plans, Saved Worlds, Split Expenses, Trip Pulseboard, Stays & Experiences and Account. Discover and Explore are intentionally unchanged.
+- Optional provider adapters, shared trips and consent-based storyboard workflow.
+
+OPTIONAL CONNECTIONS
+- Google Flights/ixigo/KAYAK searches work without TRAVESÍA API keys. Optional in-app Amadeus offers need approved credentials.
+- Train checkout opens official IRCTC or IRCTC-listed ixigo. Provider login, payment and ticket confirmation happen on the provider site.
+- LLM_API_KEY enables hosted companion replies/storyboard analysis; local companion replies work without it.
+- MAPTILER_API_KEY is optional; the bundled world atlas and NASA GIBS fallback remain available.
+- MET Norway needs a real operator contact in CITYPULSEX_CONTACT_EMAIL or CITYPULSEX_CONTACT_URL.
+
+DATABASE BACKUP
+Create a verified local database backup with: python scripts/backup_database.py. Stop the app and follow docs/DATABASE_BACKUPS.md before restoring a backup. Never commit instance/ or backups/ to Git.
+
+GITHUB UPLOAD
+Follow GITHUB_UPLOAD_GUIDE.md. Review the bundled character-art rights note before making the repository public.
+
+TESTS AND REPORTS
+See docs/VERIFICATION_REPORT.md and docs/PRODUCTION_DEPLOYMENT.md. Full verification needs internet access on first installation to download PyPI packages and Playwright Chromium. It also needs Node.js for the expense-ledger test.
