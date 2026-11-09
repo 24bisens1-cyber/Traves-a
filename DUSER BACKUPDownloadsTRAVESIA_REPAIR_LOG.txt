@@ -1,0 +1,106 @@
+ dependabot.yml => .github/dependabot.yml           |   0
+ tests.yml => .github/workflows/tests.yml           |   0
+ .vscode/launch.json                                |  15 [32m++++++++[m
+ .vscode/tasks.json                                 |  25 [32m++++++++++++[m
+ FINAL_RELEASE_GUIDE.md                             |  42 [32m+++++++++++++++++++++[m
+ GITHUB_UPLOAD_GUIDE.md                             |  41 [32m++++++++++++++++++++[m
+ .../3D_AND_COMPANION_STATUS.md                     |   0
+ .../API_QUICK_REFERENCE.md                         |   0
+ .../CINEMATIC_FINISH_V3.md                         |   0
+ .../COMPETITIVE_POSITIONING.md                     |   0
+ .../COMPLETE_SCOPE_CONTRACT.md                     |   0
+ DATABASE_BACKUPS.md => docs/DATABASE_BACKUPS.md    |   0
+ FEATURE_UPGRADES.md => docs/FEATURE_UPGRADES.md    |   0
+ .../FRIEND_CHARACTERS_AND_PAGE_SCENES.md           |   0
+ .../IMPLEMENTATION_STATUS.md                       |   0
+ .../PRODUCTION_DEPLOYMENT.md                       |   0
+ .../PROVIDER_ONBOARDING_PLAN.md                    |   0
+ PROVIDER_SETUP.md => docs/PROVIDER_SETUP.md        |   0
+ .../RELEASE_AUDIT_REPORT.md                        |   0
+ .../USER_REQUIREMENTS_AND_NAME_LOCK.md             |   0
+ .../V10_CHARACTER_SCENE_MOTION.md                  |   0
+ .../V7_CHARACTER_CUTOUTS_AND_POSTCARDS.md          |   0
+ .../VERIFICATION_REPORT.md                         |   0
+ VISUAL_REFRESH.md => docs/VISUAL_REFRESH.md        |   0
+ app.js => frontend/app.js                          |   0
+ .../assets/brand/travesia-globe-mark.webp          | Bin
+ .../assets/character-avatars/bulbasaur.png         | Bin
+ .../assets/character-avatars/harry-potter.png      | Bin
+ .../assets/character-avatars/hermione.png          | Bin
+ .../image(20261107-130201).cutout.png              | Bin
+ .../image(20261107-130339).cutout.png              | Bin
+ .../image(20261107-130555).cutout.png              | Bin
+ .../assets/character-avatars/iron-man.png          | Bin
+ .../assets/character-avatars/pikachu.png           | Bin
+ .../assets/character-avatars/spider-man.png        | Bin
+ .../assets/character-scenes/bulbasaur-scene.png    | Bin
+ .../assets/character-scenes/harry-potter-scene.png | Bin
+ .../assets/character-scenes/hermione-scene.png     | Bin
+ .../assets/character-scenes/iron-man-scene.png     | Bin
+ .../assets/character-scenes/pikachu-scene.png      | Bin
+ .../assets/character-scenes/spider-man-scene.png   | Bin
+ .../assets/companions/bloop-mini.svg               |   0
+ bloop.svg => frontend/assets/companions/bloop.svg  |   0
+ mira.webp => frontend/assets/companions/mira.webp  | Bin
+ .../assets/companions/orbit.webp                   | Bin
+ paws.webp => frontend/assets/companions/paws.webp  | Bin
+ pip.webp => frontend/assets/companions/pip.webp    | Bin
+ roo.webp => frontend/assets/companions/roo.webp    | Bin
+ .../assets/companions/sprout.webp                  | Bin
+ .../assets/companions3d/bloop.glb                  | Bin
+ mira.glb => frontend/assets/companions3d/mira.glb  | Bin
+ .../assets/companions3d/orbit.glb                  | Bin
+ paws.glb => frontend/assets/companions3d/paws.glb  | Bin
+ pip.glb => frontend/assets/companions3d/pip.glb    | Bin
+ roo.glb => frontend/assets/companions3d/roo.glb    | Bin
+ .../assets/companions3d/sprout.glb                 | Bin
+ .../assets/destinations/antarctica.webp            | Bin
+ goa.webp => frontend/assets/destinations/goa.webp  | Bin
+ .../assets/destinations/india-inspiration.webp     | Bin
+ .../assets/destinations/kyoto.webp                 | Bin
+ .../assets/destinations/rome.webp                  | Bin
+ .../assets/destinations/sydney.webp                | Bin
+ frontend/assets/world-map.svg                      |  15 [32m++++++++[m
+ cinematic.css => frontend/cinematic.css            |   0
+ cinematic.js => frontend/cinematic.js              |   0
+ companion-3d.js => frontend/companion-3d.js        |   0
+ expense-ledger.js => frontend/expense-ledger.js    |   0
+ extensions.js => frontend/extensions.js            |   0
+ .../feature-upgrades.js                            |   0
+ .../friend-characters.js                           |   0
+ glb-viewer.js => frontend/glb-viewer.js            |   0
+ globe.js => frontend/globe.js                      |   0
+ index.html => frontend/index.html                  |   0
+ providers.js => frontend/providers.js              |   0
+ pulseboard.css => frontend/pulseboard.css          |   0
+ pulseboard.js => frontend/pulseboard.js            |   0
+ styles.css => frontend/styles.css                  |   0
+ .../tests/character-stage.test.cjs                 |   0
+ .../tests/expense-ledger.test.cjs                  |   0
+ .../tests/friend-characters.test.cjs               |   0
+ .../tests/hero-postcards.test.cjs                  |   0
+ world-game.js => frontend/world-game.js            |   0
+ __init__.py => scripts/__init__.py                 |   0
+ backup_database.py => scripts/backup_database.py   |   0
+ .../check_environment.py                           |   0
+ .../generate_companion_glbs.py                     |   0
+ restore_database.py => scripts/restore_database.py |   0
+ smoke_deployed.py => scripts/smoke_deployed.py     |   0
+ .../verify_booking_handoffs_browser.py             |   0
+ .../verify_cinematic_refresh_browser.py            |   0
+ .../verify_glb_animation_browser.py                |   0
+ .../verify_portal_run_browser.py                   |   0
+ .../verify_trip_pulseboard_browser.py              |   0
+ .../verify_v7_character_postcards.py               |   0
+ .../verify_world_map_browser.py                    |   0
+ services/__init__.py                               |   0
+ env_config.py => services/env_config.py            |   0
+ .../travel_provider_adapters.py                    |   0
+ .../test_character_cutouts.py                      |   0
+ .../test_database_backup.py                        |   0
+ test_env_config.py => tests/test_env_config.py     |   0
+ .../test_release_contracts.py                      |   0
+ .../test_travel_provider_adapters.py               |   0
+ test_travesia_api.py => tests/test_travesia_api.py |   0
+ .../test_world_map_hero.py                         |   0
+ 105 files changed, 138 insertions(+)

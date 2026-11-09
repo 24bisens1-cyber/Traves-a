@@ -1,0 +1,25 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "TRAVESÍA: Run app",
+      "type": "shell",
+      "command": "${workspaceFolder}\\run_windows.bat",
+      "problemMatcher": []
+    },
+    {
+      "label": "TRAVESÍA: Full verification",
+      "type": "shell",
+      "command": "${workspaceFolder}\\verify_windows.bat",
+      "problemMatcher": []
+    },
+    {
+      "label": "TRAVESÍA: Python tests",
+      "type": "shell",
+      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+      "args": ["-m", "pytest", "-q"],
+      "options": {"env": {"CITYPULSEX_REQUIRE_FLASK_TESTS": "1"}},
+      "problemMatcher": []
+    }
+  ]
+}
