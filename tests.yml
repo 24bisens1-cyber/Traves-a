@@ -1,0 +1,105 @@
+name: TRAVESÍA checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: citypulsex-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend-and-api:
+    timeout-minutes: 15
+    name: Flask API, security, provider adapters and release contracts
+    runs-on: ubuntu-latest
+    env:
+      CITYPULSEX_REQUIRE_FLASK_TESTS: "1"
+      COOKIE_SECURE: "0"
+      CITYPULSEX_TRUST_PROXY: "0"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - name: Install complete test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+      - name: Check dependency consistency
+        run: python -m pip check
+      - name: Run complete Python suite (Flask tests are mandatory)
+        run: python -m pytest -q tests
+      - name: Compile Python modules
+        run: python -m py_compile app.py services/*.py scripts/*.py tests/*.py
+
+  browser-regressions:
+    timeout-minutes: 25
+    name: Browser interaction regressions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - name: Install browser test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+      - name: Install Chromium
+        run: python -m playwright install --with-deps chromium
+      - name: Verify booking hand-offs and route/date updates
+        run: python scripts/verify_booking_handoffs_browser.py
+      - name: Verify Portal Run interactions
+        run: python scripts/verify_portal_run_browser.py
+      - name: Verify cinematic destination hero, Bloop dock, Explore atlas and Portal Run
+        run: python scripts/verify_cinematic_refresh_browser.py
+      - name: Verify focused Goa/Kyoto/Antarctica postcards and character scenes
+        run: python scripts/verify_v7_character_postcards.py
+      - name: Verify all rigged companion GLB animation clips
+        run: python scripts/verify_glb_animation_browser.py
+      - name: Verify Trip Pulseboard provider labels and responsive UI
+        run: python scripts/verify_trip_pulseboard_browser.py
+
+  frontend:
+    timeout-minutes: 10
+    name: Frontend syntax and unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax
+        run: |
+          node --check frontend/app.js
+          node --check frontend/friend-characters.js
+          node --check frontend/cinematic.js
+          node --check frontend/expense-ledger.js
+          node --check frontend/extensions.js
+          node --check frontend/feature-upgrades.js
+          node --check frontend/globe.js
+          node --check frontend/providers.js
+          node --check frontend/companion-3d.js
+          node --check frontend/glb-viewer.js
+          node --check frontend/world-game.js
+          node --check frontend/pulseboard.js
+      - name: Run frontend unit tests
+        run: node --test frontend/tests/*.test.cjs
+
+  docker-build:
+    timeout-minutes: 25
+    name: Production Docker image build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build production image
+        run: docker build --pull -t citypulsex:ci .

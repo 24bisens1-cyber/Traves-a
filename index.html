@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f5f2eb"><meta name="description" content="TRAVESÍA — The World Is Yours to Explore. Discover destinations, plan journeys, explore interactive worlds and share adventures.">
+<title>TRAVESÍA — The World Is Yours to Explore</title>
+<link rel="preconnect" href="https://unpkg.com"><link rel="preconnect" href="https://tile.openstreetmap.org">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=travesia-v11">
+<link rel="stylesheet" href="pulseboard.css">
+<link rel="stylesheet" href="cinematic.css?v=10">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#" data-view="home"><span class="brand-mark"><img src="assets/brand/travesia-globe-mark.webp" alt=""></span><span>TRAVESÍA<small>THE WORLD IS YOURS TO EXPLORE</small></span></a>
+    <div class="profile-chip"><div class="avatar">✦</div><div><b>The world is yours</b><small>Discover beyond the usual</small></div><span class="online-dot"></span></div>
+    <div class="nav-label">YOUR WORLD</div>
+    <nav class="nav">
+      <button class="nav-item active" data-view="home"><span>⌂</span> Discover <kbd>01</kbd></button>
+      <button class="nav-item" data-view="explore"><span>◎</span> Explore the world</button>
+      <button class="nav-item" data-view="planner"><span>✧</span> Trip studio <span class="nav-pill">NEW</span></button>
+      <button class="nav-item" data-view="pulse"><span>◉</span> Trip Pulseboard <span class="nav-pill">SIGNALS</span></button>
+      <button class="nav-item" data-view="mobility"><span>↗</span> Get me there</button>
+      <button class="nav-item" data-view="experiences"><span>✦</span> Stays & experiences</button>
+      <button class="nav-item" data-view="citytwin"><span>⌘</span> World scene lab</button>
+      <button class="nav-item" data-view="squad"><span>♡</span> Squad plans</button>
+      <button class="nav-item" data-view="split"><span>₹</span> Split expenses <span class="nav-pill">NEW</span></button>
+    </nav>
+    <div class="nav-label">YOUR LITTLE UNIVERSE</div>
+    <nav class="nav">
+      <button class="nav-item" data-view="companion"><span>❋</span> Companion studio</button>
+      <button class="nav-item" data-view="saved"><span>▤</span> Saved worlds</button>
+      <button class="nav-item" data-view="account"><span>♙</span> Account & access</button>
+    </nav>
+    <div class="sidebar-bottom"><div class="tiny-weather"><span class="sun">☼</span><div><b>Curiosity forecast</b><small>100% chance of discovery</small></div></div><button class="quiet-btn" id="helpBtn">ⓘ &nbsp; How TRAVESÍA works</button></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><button class="mobile-menu" id="menuBtn" aria-label="Open menu">☰</button><div class="breadcrumb">Your universe <span>/</span> <b id="crumb">Discover</b></div><div class="top-actions"><button class="icon-btn" id="voiceTop" title="Voice input">◖))</button><button class="icon-btn" id="themeBtn" title="Toggle mood">☼</button><div class="top-avatar">S</div></div></header>
+    <div class="page" id="page">
+      <section class="hero hero-cinematic" aria-label="TRAVESÍA destination discovery">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="sparkle">✦</span> A LITTLE MORE WONDER, EVERY DAY</div>
+          <h1>Find your next<br><em>somewhere.</em></h1>
+          <p>Choose a coastline, a hidden café or a faraway city. Find your people, shape the route and bring every part of the trip together.</p>
+          <div class="hero-trust-line"><span class="hero-trust-dot"></span> Your next story starts with one little click</div>
+        </div>
+        <div class="hero-art travel-scene-stage" aria-label="Goa beach destination preview">
+          <div class="scene-glow scene-glow-one"></div><div class="scene-glow scene-glow-two"></div>
+          <div class="scene-topline"><span><i></i> THE WORLD IS OPEN</span><small>POSTCARD STORY / <b>01</b></small></div>
+          <div class="scene-main-card"><img src="assets/destinations/goa.webp" alt="Goa beach at golden hour"><div class="scene-main-shade"></div><div class="scene-main-copy"><span class="scene-kicker">THE FEEL-GOOD ESCAPE</span><h2>Goa, India</h2><p>Salt air, golden-hour swims and slow little mornings.</p></div></div>
+          <div class="scene-float-card scene-float-kyoto"><img src="assets/destinations/kyoto.webp" alt="Kyoto temple and garden"><span>QUIET MAGIC <b>Kyoto</b></span></div>
+          <div class="scene-float-card scene-float-ice"><img src="assets/destinations/antarctica.webp" alt="Antarctic ice landscape"><span>THE WILD EDGE <b>Antarctica</b></span></div>
+        </div>
+      </section>
+      <div class="app-boot-note" role="status">Opening your world of little adventures…</div>
+    </div>
+  </main>
+</div>
+<div class="bloop-dock" id="bloopDock">
+  <section class="hero-guide-chat bloop-chat-panel" id="heroGuideChat" hidden aria-label="Chat with Bloop">
+    <div class="hero-guide-chat-head"><div><b>Bloop’s travel desk</b><small>Trip ideas · budgets · packing · routes</small></div><button type="button" id="heroGuideClose" aria-label="Close chat">×</button></div>
+    <div class="hero-guide-messages" id="heroGuideMessages" aria-live="polite"><p class="guide-msg guide-msg-bloop">Hiii explorer! 🌎 Tell me where you want to go, or give me a budget and I’ll help you start.</p></div>
+    <div class="hero-guide-suggestions"><button type="button" data-guide-prompt="Plan a 4-day trip under ₹10,000">Budget trip</button><button type="button" data-guide-prompt="What should I pack for my trip?">Packing list</button></div>
+    <form class="hero-guide-form" id="heroGuideForm"><input id="heroGuideInput" maxlength="2000" placeholder="Ask Bloop anything…" autocomplete="off" aria-label="Message Bloop"><button type="submit" aria-label="Send message">↗</button></form>
+    <small class="hero-guide-provider" id="heroGuideProvider">Bloop’s travel desk · ready when you are</small>
+  </section>
+  <button class="bloop-launcher" id="bloopLauncher" type="button" aria-label="Open Bloop travel helper" aria-expanded="false"><span class="bloop-launcher-halo"></span><svg id="bloopMiniArt" class="bloop-mini-art" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" aria-hidden="true">
+  <title id="title">Bloop, the tiny turquoise travel octopus</title>
+  <desc id="desc">A friendly round aqua octopus with big sparkling eyes, rosy cheeks and eight little tentacles.</desc>
+  <defs>
+    <linearGradient id="body" x1=".12" y1=".08" x2=".88" y2=".96"><stop stop-color="#b6fff0"/><stop offset=".46" stop-color="#62d7cb"/><stop offset="1" stop-color="#168d9d"/></linearGradient>
+    <linearGradient id="arm" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a1f5e5"/><stop offset="1" stop-color="#168da0"/></linearGradient>
+    <radialGradient id="shine" cx=".26" cy=".15" r=".8"><stop stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <filter id="shadow" x="-40%" y="-30%" width="180%" height="190%"><feGaussianBlur stdDeviation="4"/></filter>
+  </defs>
+  <ellipse cx="91" cy="160" rx="48" ry="8" fill="#114f5a" opacity=".2" filter="url(#shadow)"/>
+  <g fill="none" stroke="url(#arm)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <path class="bloop-arm arm-a" d="M53 111 C35 113 27 126 29 140"/><path class="bloop-arm arm-b" d="M66 124 C51 139 51 151 57 159"/>
+    <path class="bloop-arm arm-c" d="M83 128 C76 148 83 158 92 163"/><path class="bloop-arm arm-d" d="M101 128 C104 147 117 153 125 157"/>
+    <path class="bloop-arm arm-e" d="M119 120 C137 132 144 143 148 154"/><path class="bloop-arm arm-f" d="M47 93 C29 89 20 97 17 109"/>
+    <path class="bloop-arm arm-g" d="M128 92 C147 88 156 96 160 108"/><path class="bloop-arm arm-h" d="M121 111 C143 117 153 127 155 139"/>
+  </g>
+  <g fill="#0d7585" opacity=".88"><circle cx="29" cy="141" r="6"/><circle cx="57" cy="159" r="6"/><circle cx="92" cy="163" r="6"/><circle cx="125" cy="157" r="6"/><circle cx="148" cy="154" r="6"/><circle cx="17" cy="109" r="6"/><circle cx="160" cy="108" r="6"/><circle cx="155" cy="139" r="6"/></g>
+  <path d="M44 87 C41 57 61 31 90 28 C120 25 143 47 140 80 C138 105 119 122 92 123 C65 124 47 110 44 87Z" fill="url(#body)" stroke="#137f8e" stroke-width="2.5"/>
+  <path d="M52 67 C55 46 73 34 92 34 C111 34 128 46 132 65 C116 54 100 50 83 54 C69 57 60 64 52 75Z" fill="url(#shine)" opacity=".7"/>
+  <g class="bloop-eyes">
+    <ellipse cx="75" cy="79" rx="15" ry="19" fill="#f7fffb"/><ellipse cx="111" cy="79" rx="15" ry="19" fill="#f7fffb"/>
+    <circle class="bloop-pupil" cx="78" cy="82" r="8.3" fill="#153b49"/><circle class="bloop-pupil" cx="114" cy="82" r="8.3" fill="#153b49"/>
+    <circle cx="75" cy="77" r="3.2" fill="#fff"/><circle cx="111" cy="77" r="3.2" fill="#fff"/>
+    <circle cx="82" cy="88" r="1.5" fill="#fff" opacity=".8"/><circle cx="118" cy="88" r="1.5" fill="#fff" opacity=".8"/>
+  </g>
+  <ellipse cx="58" cy="99" rx="9" ry="5.5" fill="#ff9caa" opacity=".82"/><ellipse cx="128" cy="99" rx="9" ry="5.5" fill="#ff9caa" opacity=".82"/>
+  <path d="M85 100 Q93 108 102 100" fill="none" stroke="#176677" stroke-width="3.3" stroke-linecap="round"/>
+  <path d="M47 54 Q51 40 65 35" fill="none" stroke="#eafffa" stroke-width="4" stroke-linecap="round" opacity=".7"/>
+  <g fill="#d8fff6" opacity=".82"><circle cx="43" cy="116" r="2"/><circle cx="137" cy="116" r="2"/><circle cx="66" cy="119" r="1.7"/></g>
+</svg><span class="bloop-online-dot"></span><span class="bloop-tooltip">Need a tiny travel buddy?</span></button>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<div class="modal-backdrop" id="modalBackdrop"><div class="modal"><button class="modal-close" id="modalClose">×</button><div class="eyebrow">A QUICK NOTE</div><h2>A few things to know.</h2><p>TRAVESÍA brings together destination discovery, editable trip plans, budget calculations, map exploration, transport comparisons and animated travel companions. Some results come from live providers; example figures are labelled where live data is unavailable.</p><p>Live flight comparison is available through Google Flights and ixigo without a TRAVESÍA key; optional in-app offers need Amadeus credentials. Train search and checkout open official IRCTC or IRCTC-listed ixigo. Example figures are estimates, never live quotes.</p><button class="primary-btn" id="modalOk">Got it, let's explore ✦</button></div></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="providers.js"></script>
+<script src="glb-viewer.js"></script>
+<script src="companion-3d.js"></script>
+<script src="expense-ledger.js"></script>
+<script src="friend-characters.js?v=10"></script>
+<script src="world-game.js"></script>
+<script src="app.js?v=9"></script>
+<script src="extensions.js"></script>
+<script src="pulseboard.js"></script>
+<script src="feature-upgrades.js"></script>
+<script src="cinematic.js?v=10"></script>
+</body></html>

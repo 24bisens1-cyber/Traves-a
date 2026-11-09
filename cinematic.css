@@ -1,0 +1,359 @@
+/* TRAVESÍA cinematic interaction layer.
+   Inspired by the supplied motion references: luminous depth, object-like 3D staging,
+   editorial type, scroll reveals and tactile hover response. No external runtime. */
+:root {
+  --cp-violet: #9f8cff;
+  --cp-lime: #d7ff72;
+  --cp-cyan: #86f6dc;
+  --cp-night: #061a2a;
+  --cp-night-2: #0c2a40;
+}
+
+/* The landing scene becomes a real interactive object, not a static illustration. */
+.world-map-hero {
+  background:
+    radial-gradient(ellipse at 52% 46%, #173e55 0%, #0a2639 56%, #071728 100%) !important;
+  border: 1px solid rgba(213, 255, 239, .12);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 28px 80px rgba(4,18,31,.24);
+  overflow: hidden;
+}
+.world-map-hero:before {
+  background:
+    radial-gradient(circle at 22% 22%, rgba(162,133,255,.24), transparent 34%),
+    radial-gradient(circle at 78% 75%, rgba(115,249,218,.16), transparent 33%),
+    radial-gradient(circle at 51% 48%, rgba(89,137,255,.10), transparent 56%) !important;
+  animation: cpAtmosphere 15s ease-in-out infinite alternate !important;
+}
+.world-map-hero:after {
+  background:
+    radial-gradient(500px circle at var(--map-x,50%) var(--map-y,50%), rgba(199,255,229,.18), transparent 59%),
+    linear-gradient(180deg, rgba(3,15,27,.02), rgba(3,15,27,.32)) !important;
+  z-index: 2;
+}
+.globe-atmosphere {
+  position: absolute;
+  z-index: 1;
+  width: min(88%, 490px);
+  aspect-ratio: 1;
+  left: 48%;
+  top: 49%;
+  transform: translate(-50%,-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(109,237,216,.24) 0%, rgba(94,134,255,.15) 42%, rgba(156,117,255,.08) 60%, transparent 72%);
+  filter: blur(8px);
+  animation: cpGlobeBreath 7s ease-in-out infinite;
+  pointer-events: none;
+}
+.globe-orbit {
+  position: absolute;
+  z-index: 2;
+  left: 48%;
+  top: 49%;
+  width: min(82%, 470px);
+  height: min(35%, 174px);
+  border: 1px solid rgba(157,241,226,.28);
+  border-radius: 50%;
+  transform: translate(-50%,-50%) rotate(-24deg);
+  pointer-events: none;
+  box-shadow: 0 0 24px rgba(103,235,218,.07), inset 0 0 16px rgba(103,235,218,.04);
+}
+.globe-orbit-one { animation: cpOrbit 26s linear infinite; }
+.globe-orbit-two {
+  width: min(94%, 535px);
+  height: min(45%, 215px);
+  border-color: rgba(177,150,255,.22);
+  transform: translate(-50%,-50%) rotate(27deg);
+  animation: cpOrbitReverse 34s linear infinite;
+}
+.globe-orbit-three {
+  width: min(68%, 385px);
+  height: min(25%, 125px);
+  border-color: rgba(215,255,114,.22);
+  transform: translate(-50%,-50%) rotate(68deg);
+  animation: cpOrbit 40s linear infinite;
+}
+#citypulseGlobe {
+  position: absolute;
+  z-index: 3;
+  inset: 3% 3% 4% 1%;
+  display: block;
+  width: 96%;
+  height: 93%;
+  cursor: grab;
+  touch-action: pan-y;
+  outline: none;
+  filter: drop-shadow(0 25px 36px rgba(0,0,0,.28));
+}
+#citypulseGlobe:active { cursor: grabbing; }
+.globe-particle-field {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.globe-particle-field span {
+  position: absolute;
+  width: var(--particle-size, 3px);
+  height: var(--particle-size, 3px);
+  left: var(--particle-x);
+  top: var(--particle-y);
+  border-radius: 50%;
+  background: var(--particle-color, #b5fff0);
+  opacity: .2;
+  box-shadow: 0 0 12px 2px currentColor;
+  animation: cpParticleFloat var(--particle-duration, 8s) ease-in-out var(--particle-delay, 0s) infinite alternate;
+}
+.globe-scene-label {
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  max-width: 210px;
+  padding: 9px 12px;
+  color: #e9fff6;
+  border: 1px solid rgba(228,255,246,.16);
+  border-radius: 13px;
+  background: rgba(4,20,34,.64);
+  box-shadow: 0 10px 34px rgba(0,0,0,.18);
+  backdrop-filter: blur(16px);
+  pointer-events: none;
+}
+.globe-scene-label b { display:block; font-size:8px; letter-spacing:1.15px; line-height:1.4; }
+.globe-scene-label small { display:block; margin-top:3px; color:rgba(210,238,233,.62); font-size:7px; letter-spacing:1px; }
+.globe-scene-label-top { left:18px; top:63px; }
+.globe-scene-label-bottom { left:18px; bottom:20px; }
+.globe-label-dot { width:7px; height:7px; flex:0 0 7px; border-radius:50%; background:var(--cp-lime); box-shadow:0 0 12px var(--cp-lime); }
+.globe-label-icon { display:grid; place-items:center; width:26px; height:26px; flex:0 0 26px; color:#101d32; background:var(--cp-lime); border-radius:9px; font-size:13px; }
+.globe-hotspot {
+  z-index: 7;
+  border-color: rgba(255,255,255,.66);
+  color: #11273a;
+  background: rgba(245,255,248,.94);
+  box-shadow: 0 8px 22px rgba(0,0,0,.3), 0 0 0 3px rgba(153,255,222,.08);
+  font-size: 9px;
+  letter-spacing: .01em;
+}
+.globe-hotspot:before { background: #b5e94c; box-shadow: 0 0 9px #b5e94c; }
+.globe-hotspot:hover { transform: translate(-50%,-50%) scale(1.1); box-shadow: 0 0 0 7px rgba(188,255,228,.17), 0 12px 28px rgba(0,0,0,.34); }
+.map-card-top, .map-card-bottom { background: rgba(247,255,247,.93); border-color: rgba(255,255,255,.56); }
+.map-card-top { top: 17px; right: 17px; }
+.map-card-bottom { left: 17px; bottom: 67px; }
+.hero-guide { right: 2.5%; bottom: 1.5%; width: clamp(145px,25%,225px); }
+.hero-guide-status { background: rgba(245,255,247,.94); box-shadow: 0 10px 28px rgba(0,0,0,.22); }
+.hero-guide-model { height: clamp(155px,19vw,205px); }
+.hero-guide-model canvas, .hero-guide-model img { filter: drop-shadow(0 18px 15px rgba(0,0,0,.32)); }
+.hero-guide-greeting { border-color: rgba(222,255,238,.76); box-shadow: 0 12px 30px rgba(0,0,0,.26); }
+.hero-guide-chat { z-index: 18; }
+.map-corner-card .map-card-icon { background: #e1d9ff; color: #6651ad; }
+
+/* Small, responsive pieces of movement through the rest of the product. */
+.cinematic-progress {
+  position: fixed;
+  z-index: 1001;
+  left: 0;
+  top: 0;
+  height: 3px;
+  width: 0;
+  background: linear-gradient(90deg, #7cead7, #9f8cff 55%, #d7ff72);
+  box-shadow: 0 0 12px rgba(125,239,219,.45);
+  pointer-events: none;
+}
+.destination-card, .feature-card { position: relative; transform-style: preserve-3d; }
+.destination-card {
+  --cp-tilt-x: 0deg;
+  --cp-tilt-y: 0deg;
+  --cp-spot-x: 50%;
+  --cp-spot-y: 50%;
+  transition: transform .32s cubic-bezier(.2,.8,.2,1), box-shadow .32s, border-color .32s;
+}
+.destination-card:hover {
+  transform: perspective(1000px) rotateX(var(--cp-tilt-x)) rotateY(var(--cp-tilt-y)) translateY(-6px);
+  border-color: #c9daca;
+}
+.destination-card:after {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(240px circle at var(--cp-spot-x) var(--cp-spot-y), rgba(255,255,255,.2), transparent 65%);
+  transition: opacity .25s;
+}
+.destination-card:hover:after { opacity: 1; }
+.feature-card {
+  --cp-tilt-x: 0deg;
+  --cp-tilt-y: 0deg;
+  --cp-spot-x: 50%;
+  --cp-spot-y: 50%;
+  transition: transform .32s cubic-bezier(.2,.8,.2,1), box-shadow .32s, border-color .32s;
+}
+.feature-card:hover {
+  transform: perspective(1000px) rotateX(var(--cp-tilt-x)) rotateY(var(--cp-tilt-y)) translateY(-5px);
+}
+.feature-card:after {
+  content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  background:radial-gradient(220px circle at var(--cp-spot-x) var(--cp-spot-y), rgba(161,220,194,.19), transparent 68%);
+  opacity:0; transition:opacity .25s;
+}
+.feature-card:hover:after { opacity:1; }
+.cinematic-enabled [data-reveal] { opacity: 0; transform: translateY(16px) scale(.995); }
+.cinematic-enabled [data-reveal].is-in-view { opacity: 1; transform: translateY(0) scale(1); transition: opacity .65s ease, transform .65s cubic-bezier(.2,.75,.2,1); }
+.cinematic-enabled [data-reveal].is-in-view:nth-child(2) { transition-delay: .06s; }
+.cinematic-enabled [data-reveal].is-in-view:nth-child(3) { transition-delay: .12s; }
+.cinematic-enabled [data-reveal].is-in-view:nth-child(4) { transition-delay: .18s; }
+.hero, .world-game { transform-origin: 50% 50%; }
+.hero .hero-copy > * { animation: cpTextRise .65s both; }
+.hero .hero-copy > *:nth-child(2) { animation-delay: .07s; }
+.hero .hero-copy > *:nth-child(3) { animation-delay: .13s; }
+.hero .hero-copy > *:nth-child(4) { animation-delay: .19s; }
+.hero .hero-copy > *:nth-child(5) { animation-delay: .25s; }
+
+@keyframes cpAtmosphere { from { opacity:.6; transform:translate3d(-1.5%,0,0) scale(.98); } to { opacity:1; transform:translate3d(1.5%,-1%,0) scale(1.04); } }
+@keyframes cpGlobeBreath { 0%,100% { opacity:.7; transform:translate(-50%,-50%) scale(.96); } 50% { opacity:1; transform:translate(-50%,-50%) scale(1.06); } }
+@keyframes cpOrbit { from { rotate:0deg; } to { rotate:360deg; } }
+@keyframes cpOrbitReverse { from { rotate:0deg; } to { rotate:-360deg; } }
+@keyframes cpParticleFloat { from { opacity:.13; transform:translate3d(-5px,8px,0) scale(.7); } to { opacity:.62; transform:translate3d(8px,-13px,0) scale(1.25); } }
+@keyframes cpTextRise { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+@media (max-width: 1100px) {
+  .hero-guide { width: 24%; }
+  .globe-scene-label { padding:7px 9px; }
+}
+@media (max-width: 760px) {
+  .world-map-hero { min-height: 300px !important; }
+  #citypulseGlobe { inset: 4% 2% 3%; width:96%; height:93%; }
+  .globe-atmosphere { width:80%; left:49%; }
+  .globe-orbit { width:78%; height:37%; left:49%; }
+  .globe-orbit-two { width:90%; height:46%; }
+  .globe-orbit-three { width:66%; height:25%; }
+  .globe-scene-label-top { left:10px; top:48px; }
+  .globe-scene-label-bottom { left:10px; bottom:10px; }
+  .globe-scene-label { padding:6px 8px; gap:6px; }
+  .globe-scene-label b { font-size:7px; }
+  .globe-scene-label small { font-size:6px; }
+  .map-card-top { right:10px; top:10px; }
+  .map-card-bottom { display:none; }
+  .hero-guide { right:1%; bottom:0; width:116px; min-height:185px; }
+  .hero-guide-model { height:132px; min-height:132px; }
+  .hero-guide-status { padding:5px 7px; font-size:6px; }
+  .hero-guide-greeting { padding:6px 7px; }
+  .hero-guide-chat { width:min(300px,84vw); }
+  .globe-hotspot { padding:4px 6px; font-size:7px; }
+}
+@media (max-width: 420px) {
+  .world-map-hero { min-height:275px !important; }
+  .globe-scene-label-bottom { display:none; }
+  .hero-guide { width:100px; min-height:164px; }
+  .hero-guide-model { height:115px; min-height:115px; }
+  .map-card-top { max-width:125px; }
+  .globe-hotspot { font-size:6px; padding:3px 5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .globe-atmosphere, .globe-orbit, .globe-particle-field span { animation:none !important; }
+  .cinematic-enabled [data-reveal], .cinematic-enabled [data-reveal].is-in-view { opacity:1 !important; transform:none !important; transition:none !important; }
+}
+.reduce-motion .globe-atmosphere, .reduce-motion .globe-orbit, .reduce-motion .globe-particle-field span { animation:none !important; }
+
+/* Route changes feel like a single composed experience rather than disconnected pages. */
+#page.cinematic-page-enter { animation: cpPageEnter .62s cubic-bezier(.2,.75,.2,1) both; }
+@keyframes cpPageEnter { from { opacity:0; transform:translate3d(0,14px,0) scale(.996); filter:blur(2px); } to { opacity:1; transform:translate3d(0,0,0) scale(1); filter:blur(0); } }
+@media (prefers-reduced-motion: reduce) { #page.cinematic-page-enter { animation:none; } }
+
+/* Accessible textured globe when the browser blocks WebGL. */
+#citypulseGlobe.globe-source-hidden { display:none !important; }
+.globe-fallback-canvas { position:absolute; z-index:3; inset:3% 3% 4% 1%; width:96%; height:93%; display:block; cursor:grab; touch-action:pan-y; filter:drop-shadow(0 25px 36px rgba(0,0,0,.28)); }
+.globe-fallback-canvas:active { cursor:grabbing; }
+.booking-flow-note { display:grid; gap:5px; margin-top:14px; padding:13px 15px; border:1px solid rgba(55,108,91,.18); border-radius:14px; background:linear-gradient(120deg,rgba(221,244,231,.68),rgba(255,250,237,.8)); color:#365a4a; font-size:11px; line-height:1.6; }
+.booking-flow-note b { font-size:12px; letter-spacing:.04em; }
+@media(prefers-reduced-motion:reduce){.globe-fallback-canvas{scroll-behavior:auto}}
+
+/* Scroll-linked travel storytelling: controlled camera drift, never random movement. */
+.scene-main-card img { transform: translate3d(0,var(--cp-scroll-lift,0px),0) scale(var(--cp-scroll-scale,1.035)); }
+.scene-main-card:hover img { transform: translate3d(0,var(--cp-scroll-lift,0px),0) scale(1.075); }
+.scene-float-card, .story-chapter-art { translate: 0 var(--cp-scroll-lift,0px); }
+.story-chapter-art { scale: var(--cp-scroll-scale,1); }
+@media (prefers-reduced-motion: reduce) {
+  .scene-main-card img, .scene-float-card, .story-chapter-art { translate: 0 0 !important; scale: 1 !important; }
+}
+
+/* The three story chapters are photographic travel moments, not abstract science diagrams. */
+.story-chapter-art {
+  background-size: cover !important;
+  background-position: center !important;
+  isolation: isolate;
+  box-shadow: inset 0 0 0 1px #ffffff70, 0 12px 24px #102e3024 !important;
+  will-change: translate, scale;
+}
+.story-chapter-art:before {
+  inset: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  border: 0 !important;
+  border-radius: inherit !important;
+  background: linear-gradient(180deg,#061d2a12 0%,#061d2a28 42%,#061d2a9e 100%) !important;
+  animation: none !important;
+  transform: none !important;
+}
+.story-chapter-art:after {
+  width: 54px !important;
+  height: 54px !important;
+  top: 12px !important;
+  right: 12px !important;
+  left: auto !important;
+  bottom: auto !important;
+  border: 1px solid #ffffff9c !important;
+  border-radius: 18px !important;
+  background: #ffffff19 !important;
+  box-shadow: inset 0 0 18px #ffffff20, 0 8px 18px #061d2a22;
+  transform: rotate(15deg) !important;
+  animation: cpStoryBadge 7s ease-in-out infinite alternate !important;
+}
+.story-chapter-art b {
+  color: #fff !important;
+  font-size: 43px !important;
+  text-shadow: 0 5px 22px #061c2cbd !important;
+  transform: translateZ(22px);
+}
+.story-chapter-art i {
+  z-index: 2;
+  right: 25px !important;
+  top: 23px !important;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #ffffffa0;
+  border-radius: 50%;
+  background: #f8fff0dd;
+  color: #2c6253;
+  font-size: 13px !important;
+  box-shadow: 0 5px 15px #061d2a36;
+  animation: cpStorySpark 4s ease-in-out infinite;
+}
+.story-chapter-art small {
+  z-index: 2;
+  padding: 6px 8px;
+  border: 1px solid #ffffff67;
+  border-radius: 20px;
+  background: #061d2a65;
+  backdrop-filter: blur(8px);
+  color: #fff !important;
+  text-shadow: 0 2px 8px #061d2a;
+}
+.chapter-discover {
+  background-image: url("assets/destinations/goa.webp") !important;
+}
+.chapter-crew {
+  background-image: url("assets/destinations/sydney.webp") !important;
+}
+.chapter-plan {
+  background-image: url("assets/destinations/india-inspiration.webp") !important;
+}
+@keyframes cpStoryBadge { from { rotate: 10deg; translate: 0 0; } to { rotate: 19deg; translate: -4px 5px; } }
+@keyframes cpStorySpark { 0%,100% { translate: 0 0; scale: 1; } 50% { translate: 0 -5px; scale: 1.05; } }
+@media (prefers-reduced-motion: reduce) {
+  .story-chapter-art:after, .story-chapter-art i { animation: none !important; }
+}

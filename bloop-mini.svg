@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-labelledby="title desc">
+  <title id="title">Bloop, the tiny turquoise travel octopus</title>
+  <desc id="desc">A friendly round aqua octopus with big sparkling eyes, rosy cheeks and eight little tentacles.</desc>
+  <defs>
+    <linearGradient id="body" x1=".12" y1=".08" x2=".88" y2=".96"><stop stop-color="#b6fff0"/><stop offset=".46" stop-color="#62d7cb"/><stop offset="1" stop-color="#168d9d"/></linearGradient>
+    <linearGradient id="arm" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a1f5e5"/><stop offset="1" stop-color="#168da0"/></linearGradient>
+    <radialGradient id="shine" cx=".26" cy=".15" r=".8"><stop stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <filter id="shadow" x="-40%" y="-30%" width="180%" height="190%"><feGaussianBlur stdDeviation="4"/></filter>
+  </defs>
+  <ellipse cx="91" cy="160" rx="48" ry="8" fill="#114f5a" opacity=".2" filter="url(#shadow)"/>
+  <g fill="none" stroke="url(#arm)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <path class="bloop-arm arm-a" d="M53 111 C35 113 27 126 29 140"/><path class="bloop-arm arm-b" d="M66 124 C51 139 51 151 57 159"/>
+    <path class="bloop-arm arm-c" d="M83 128 C76 148 83 158 92 163"/><path class="bloop-arm arm-d" d="M101 128 C104 147 117 153 125 157"/>
+    <path class="bloop-arm arm-e" d="M119 120 C137 132 144 143 148 154"/><path class="bloop-arm arm-f" d="M47 93 C29 89 20 97 17 109"/>
+    <path class="bloop-arm arm-g" d="M128 92 C147 88 156 96 160 108"/><path class="bloop-arm arm-h" d="M121 111 C143 117 153 127 155 139"/>
+  </g>
+  <g fill="#0d7585" opacity=".88"><circle cx="29" cy="141" r="6"/><circle cx="57" cy="159" r="6"/><circle cx="92" cy="163" r="6"/><circle cx="125" cy="157" r="6"/><circle cx="148" cy="154" r="6"/><circle cx="17" cy="109" r="6"/><circle cx="160" cy="108" r="6"/><circle cx="155" cy="139" r="6"/></g>
+  <path d="M44 87 C41 57 61 31 90 28 C120 25 143 47 140 80 C138 105 119 122 92 123 C65 124 47 110 44 87Z" fill="url(#body)" stroke="#137f8e" stroke-width="2.5"/>
+  <path d="M52 67 C55 46 73 34 92 34 C111 34 128 46 132 65 C116 54 100 50 83 54 C69 57 60 64 52 75Z" fill="url(#shine)" opacity=".7"/>
+  <g class="bloop-eyes">
+    <ellipse cx="75" cy="79" rx="15" ry="19" fill="#f7fffb"/><ellipse cx="111" cy="79" rx="15" ry="19" fill="#f7fffb"/>
+    <circle class="bloop-pupil" cx="78" cy="82" r="8.3" fill="#153b49"/><circle class="bloop-pupil" cx="114" cy="82" r="8.3" fill="#153b49"/>
+    <circle cx="75" cy="77" r="3.2" fill="#fff"/><circle cx="111" cy="77" r="3.2" fill="#fff"/>
+    <circle cx="82" cy="88" r="1.5" fill="#fff" opacity=".8"/><circle cx="118" cy="88" r="1.5" fill="#fff" opacity=".8"/>
+  </g>
+  <ellipse cx="58" cy="99" rx="9" ry="5.5" fill="#ff9caa" opacity=".82"/><ellipse cx="128" cy="99" rx="9" ry="5.5" fill="#ff9caa" opacity=".82"/>
+  <path d="M85 100 Q93 108 102 100" fill="none" stroke="#176677" stroke-width="3.3" stroke-linecap="round"/>
+  <path d="M47 54 Q51 40 65 35" fill="none" stroke="#eafffa" stroke-width="4" stroke-linecap="round" opacity=".7"/>
+  <g fill="#d8fff6" opacity=".82"><circle cx="43" cy="116" r="2"/><circle cx="137" cy="116" r="2"/><circle cx="66" cy="119" r="1.7"/></g>
+</svg>
